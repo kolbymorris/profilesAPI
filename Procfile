@@ -1,1 +1,1 @@
-web: gunicorn profiles-rest-api.wsgi --log-file -
+web:gunicorn profiles-rest-api.wsgi --log-file -
