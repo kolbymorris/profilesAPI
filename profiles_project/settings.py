@@ -27,6 +27,7 @@ SECRET_KEY = '5^*we2%-#k386tj=2g+7!6@5hittv$0ksk(=wveri@$@&1zl+g'
 DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 
 ALLOWED_HOSTS = [
+    'https://boiling-thicket-97556.herokuapp.com/'
     'ec2-13-58-110-106.us-east-2.compute.amazonaws.com',
     '127.0.0.1'
     ]
