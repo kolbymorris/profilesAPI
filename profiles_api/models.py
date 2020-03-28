@@ -8,25 +8,7 @@ import cloudinary.uploader
 import cloudinary.api
 from cloudinary.models import CloudinaryField
 
-"""
-This is the main model in the project. It holds a reference to cloudinary-stored
-image and contains some metadata about the image.
-"""
-class Photo(models.Model):
-    ## Misc Django Fields
-    create_time = models.DateTimeField(auto_now_add=True)
-    title = models.CharField("Title (optional)", max_length=200, blank=True)
 
-    ## Points to a Cloudinary image
-    image = CloudinaryField('image')
-
-    """ Informative name for model """
-    def __unicode__(self):
-        try:
-            public_id = self.image.public_id
-        except AttributeError:
-            public_id = ''
-        return "Photo <%s:%s>" % (self.title, public_id)
 
 class UserProfileManager(BaseUserManager):
     """Manager for user profiles"""
@@ -43,6 +25,21 @@ class UserProfileManager(BaseUserManager):
               api_key = "788725593668948",
               api_secret = "DjOsDIocexQ-ynSrHHiY_72SiM4"
             )
+    class Photo(models.Model):
+        ## Misc Django Fields
+        create_time = models.DateTimeField(auto_now_add=True)
+        title = models.CharField("Title (optional)", max_length=200, blank=True)
+
+        ## Points to a Cloudinary image
+        image = CloudinaryField('image')
+
+        """ Informative name for model """
+        def __unicode__(self):
+            try:
+                public_id = self.image.public_id
+            except AttributeError:
+                public_id = ''
+            return "Photo <%s:%s>" % (self.title, public_id)
 
         user.set_password(password)
         user.save(using=self._db)
