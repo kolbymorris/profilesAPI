@@ -20,24 +20,24 @@ class UserProfileManager(BaseUserManager):
 
         email = self.normalize_email(email)
         user = self.model(email=email, name=name,)
-        picture = cloudinary.config(
+        Photo = cloudinary.config(
               cloud_name = "dxyhqk4td",
               api_key = "788725593668948",
               api_secret = "DjOsDIocexQ-ynSrHHiY_72SiM4"
             )
-    class Photo(models.Model):
-        create_time = models.DateTimeField(auto_now_add=True)
-        title = models.CharField("Title (optional)", max_length=200, blank=True)
+        class Photo(models.Model):
+            create_time = models.DateTimeField(auto_now_add=True)
+            title = models.CharField("Title (optional)", max_length=200, blank=True)s
 
-        image = CloudinaryField('image')
+            image = CloudinaryField('image')
 
-        """ Informative name for model """
-        def __unicode__(self):
-            try:
-                public_id = self.image.public_id
-            except AttributeError:
-                public_id = ''
-            return "Photo <%s:%s>" % (self.title, public_id)
+            """ Informative name for model """
+            def __unicode__(self):
+                try:
+                    public_id = self.image.public_id
+                except AttributeError:
+                    public_id = ''
+                return "Photo <%s:%s>" % (self.title, public_id)
 
         user.set_password(password)
         user.save(using=self._db)
