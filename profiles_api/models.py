@@ -26,11 +26,9 @@ class UserProfileManager(BaseUserManager):
               api_secret = "DjOsDIocexQ-ynSrHHiY_72SiM4"
             )
     class Photo(models.Model):
-        ## Misc Django Fields
         create_time = models.DateTimeField(auto_now_add=True)
         title = models.CharField("Title (optional)", max_length=200, blank=True)
 
-        ## Points to a Cloudinary image
         image = CloudinaryField('image')
 
         """ Informative name for model """
