@@ -20,6 +20,7 @@ class UserProfileManager(BaseUserManager):
 
         email = self.normalize_email(email)
         user = self.model(email=email, name=name,)
+        """Where code for cloudinary starts"""
         Photo = cloudinary.config(
               cloud_name = "dxyhqk4td",
               api_key = "788725593668948",
@@ -38,8 +39,13 @@ class UserProfileManager(BaseUserManager):
                 except AttributeError:
                     public_id = ''
                 return "Photo <%s:%s>" % (self.title, public_id)
+        """Cloudinary code end"""
+
 
         user.set_password(password)
+        password = forms.CharField(
+            widget=forms.PasswordInput
+            )
         user.save(using=self._db)
 
         return user

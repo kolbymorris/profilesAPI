@@ -187,7 +187,9 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             ret = dict(errors=form.errors)
 
         return HttpResponse(json.dumps(ret), content_type='application/json')
+        """Cloudinary code ends"""
 
+        
 class UserLoginApiView(ObtainAuthToken):
     """Handle creating user authentication tokens"""
     renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
