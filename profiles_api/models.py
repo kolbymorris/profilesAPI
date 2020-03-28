@@ -43,9 +43,6 @@ class UserProfileManager(BaseUserManager):
 
 
         user.set_password(password)
-        password = forms.CharField(
-            widget=forms.PasswordInput
-            )
         user.save(using=self._db)
 
         return user
