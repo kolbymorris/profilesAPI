@@ -27,6 +27,14 @@ class UserProfileManager(BaseUserManager, UserAdmin):
 
         return user
 
+    def create(self, request):
+    try:
+        user = CustomUser.objects.create(**data)
+        return Response(user.__dict__, status=status.HTTP_200_OK)
+    except Exception as e:
+    # Always catch a Particular Exception and not just all of them using the above code
+        return Response({'error': 'Unable to create user'}, status=status.HTTP_400_BAD_REQUEST)
+
     def create_superuser(self, email, name, password):
         """Create and save a new superuser with given details"""
         user = self.create_user(email, name, password=user.set_password(password))
