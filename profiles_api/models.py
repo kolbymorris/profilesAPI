@@ -23,7 +23,7 @@ def create_user(self, email, name, password=None, **extra_fields):
         last_login=now, date_joined=now, **extra_fields
     )
 
-    # You should save the password here:
+    #save the password here:
     user.set_password(password)
     user = self.model(email=email, **extra_fields)
     user.save(using=self._db)
@@ -34,26 +34,17 @@ def create_superuser(self, email, name, password):
     # Create and save a new superuser with given details
 
     """The password field should be the actual password.
-    What's probably happening is that user.set_password(password)
-    is probably returning None. Instead, I changed it to this:
-    https://docs.djangoproject.com/en/3.0/ref/contrib/auth/#django.contrib.auth.models.User.set_password
     """
     user = self.create_user(email, name, password=password)
     user.is_superuser = True
     user.is_staff = True
 
-    # You don't need this anymore
     # user.set_password(password)
     user.save(using=self._db)
 
     return user
 
-    """This method doesn't do anything and isn't called. Since this
-    method exists within the create_superuser method, it can only be
-    called within the create_superuser method. It's not the same as
-    user.save(). I also think it's kind of unnecessary, so I commented
-    it out.
-    """
+    """This method doesn't do anything and isn't called."""
     # def save(self, commit=True):
     #     # Save the provided password in hashed format
     #     user = super(MyForm, self).save(commit=False)
