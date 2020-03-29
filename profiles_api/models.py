@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from django.conf import settings
+from django.contrib.auth.admin import UserAdmin
+
 
 
 class UserProfileManager(BaseUserManager):
@@ -15,8 +17,6 @@ class UserProfileManager(BaseUserManager):
 
         email = self.normalize_email(email)
         user = self.model(email=email, name=name,)
-        "this line encrypts the user password"
-        user.set_password(password)
         user.save(using=self._db)
 
         return user
@@ -33,12 +33,13 @@ class UserProfileManager(BaseUserManager):
         return user
 
 
-class UserProfile(AbstractBaseUser, PermissionsMixin):
+class UserProfile(AbstractBaseUser, PermissionsMixin, UserAdmin):
     """Database model for users in the system"""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    admin.site.register(CustomUser, CustomUserAdmin)
 
     objects = UserProfileManager()
 
