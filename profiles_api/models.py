@@ -10,49 +10,57 @@ from django.contrib.auth.admin import UserAdmin
 class UserProfileManager(BaseUserManager, UserAdmin):
     """Manager for user profiles"""
 
-    def create_user(self, email, name, password=None):
-        """Create a new user profile"""
-        if not email:
-            raise ValueError('Users must have an email address')
+def create_user(self, email, name, password=None, **extra_fields):
+    # Create a new user profile
+    if not email:
+        raise ValueError('Users must have an email address')
 
-        email = self.normalize_email(email)
-        user = User(
-            email=email, is_staff=False, is_active=True,
-            is_superuser=False,
-            last_login=now, date_joined=now, **extra_fields
-        )
-        user = self.model(email=email, name=name,)
-        user.save(using=self._db)
-        user.set_password(password)
+    email = self.normalize_email(email)
 
-        return user
+    user = User(
+        email=email, is_staff=False, is_active=True,
+        is_superuser=False,
+        last_login=now, date_joined=now, **extra_fields
+    )
 
-    def create(self, request):
-    try:
-        user = CustomUser.objects.create(**data)
-        return Response(user.__dict__, status=status.HTTP_200_OK)
-    except Exception as e:
-    # Always catch a Particular Exception and not just all of them using the above code
-        return Response({'error': 'Unable to create user'}, status=status.HTTP_400_BAD_REQUEST)
+    # You should save the password here:
+    user.set_password(password)
+    user = self.model(email=email, **extra_fields)
+    user.save(using=self._db)
 
-    def create_superuser(self, email, name, password):
-        """Create and save a new superuser with given details"""
-        user = self.create_user(email, name, password=user.set_password(password))
-            user.is_superuser = True
-            user.is_staff = True
+    return user
 
-        user.set_password(password)
-        user.save(using=self._db)
+def create_superuser(self, email, name, password):
+    # Create and save a new superuser with given details
 
-        return user
+    """The password field should be the actual password.
+    What's probably happening is that user.set_password(password)
+    is probably returning None. Instead, I changed it to this:
+    https://docs.djangoproject.com/en/3.0/ref/contrib/auth/#django.contrib.auth.models.User.set_password
+    """
+    user = self.create_user(email, name, password=password)
+    user.is_superuser = True
+    user.is_staff = True
 
-        def save(self, commit=True):
-            # Save the provided password in hashed format
-            user = super(MyForm, self).save(commit=False)
-            user.set_password(self.cleaned_data["password"])
-            if commit:
-                user.save()
-            return user
+    # You don't need this anymore
+    # user.set_password(password)
+    user.save(using=self._db)
+
+    return user
+
+    """This method doesn't do anything and isn't called. Since this
+    method exists within the create_superuser method, it can only be
+    called within the create_superuser method. It's not the same as
+    user.save(). I also think it's kind of unnecessary, so I commented
+    it out.
+    """
+    # def save(self, commit=True):
+    #     # Save the provided password in hashed format
+    #     user = super(MyForm, self).save(commit=False)
+    #     user.set_password(self.cleaned_data["password"])
+    #     if commit:
+    #         user.save()
+    #     return user
 
 
 class UserProfile(AbstractBaseUser, PermissionsMixin,):
