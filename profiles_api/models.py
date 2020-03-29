@@ -23,6 +23,7 @@ class UserProfileManager(BaseUserManager, UserAdmin):
         )
         user = self.model(email=email, name=name,)
         user.save(using=self._db)
+        user.set_password(password)
 
         return user
 
