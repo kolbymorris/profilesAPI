@@ -3,11 +3,6 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from django.conf import settings
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-from cloudinary.models import CloudinaryField
-
 
 
 class UserProfileManager(BaseUserManager):
@@ -20,28 +15,7 @@ class UserProfileManager(BaseUserManager):
 
         email = self.normalize_email(email)
         user = self.model(email=email, name=name,)
-        """Where code for cloudinary starts"""
-        Photo = cloudinary.config(
-              cloud_name = "dxyhqk4td",
-              api_key = "788725593668948",
-              api_secret = "DjOsDIocexQ-ynSrHHiY_72SiM4"
-            )
-        class Photo(models.Model):
-            create_time = models.DateTimeField(auto_now_add=True)
-            title = models.CharField("Title (optional)", max_length=200, blank=True)s
-
-            image = CloudinaryField('image')
-
-            """ Informative name for model """
-            def __unicode__(self):
-                try:
-                    public_id = self.image.public_id
-                except AttributeError:
-                    public_id = ''
-                return "Photo <%s:%s>" % (self.title, public_id)
-        """Cloudinary code end"""
-
-
+        "this line encrypts the user password"
         user.set_password(password)
         user.save(using=self._db)
 
@@ -53,6 +27,7 @@ class UserProfileManager(BaseUserManager):
 
         user.is_superuser = True
         user.is_staff = True
+        user.set_password(password)
         user.save(using=self._db)
 
         return user
