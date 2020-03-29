@@ -21,8 +21,8 @@ class UserProfileManager(BaseUserManager, UserAdmin):
             is_superuser=False,
             last_login=now, date_joined=now, **extra_fields
         )
-        #user = self.model(email=email, name=name,)
-        #user.save(using=self._db)
+        user = self.model(email=email, name=name,)
+        user.save(using=self._db)
 
         return user
 
