@@ -7,6 +7,6 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from users import models
 
-admin.site.register(models.MyUser, UserAdmin)
+admin.site.register(models.UserProfileManager, UserAdmin)
 admin.site.register(models.UserProfile)
 admin.site.register(models.ProfileFeedItem)
