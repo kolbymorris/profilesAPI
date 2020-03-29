@@ -7,7 +7,7 @@ from django.contrib.auth.admin import UserAdmin
 
 
 
-class UserProfileManager(BaseUserManager):
+class UserProfileManager(BaseUserManager, UserAdmin):
     """Manager for user profiles"""
 
     def create_user(self, email, name, password=None):
@@ -33,13 +33,13 @@ class UserProfileManager(BaseUserManager):
         return user
 
 
-class UserProfile(AbstractBaseUser, PermissionsMixin, UserAdmin):
+class UserProfile(AbstractBaseUser, PermissionsMixin,):
     """Database model for users in the system"""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    admin.site.register(CustomUser, CustomUserAdmin)
+
 
     objects = UserProfileManager()
 
