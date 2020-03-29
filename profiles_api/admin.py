@@ -1,12 +1,26 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+
 from profiles_api import models
 
-from __future__ import unicode_literals
+class UserProfileAdmin(UserAdmin):
+    ordering = ['id']
+    list_display = ['email', 'name']
+    fieldsets = (
+        (None, {'fields': ('email', 'password')}),
+        (('Personal Info'), {'fields': ('name',)}),
+        (
+            ('Permissions'),
+            {'fields': ('is_active', 'is_staff', 'is_superuser')}
+        ),
+        (('Important dates'), {'fields': ('last_login',)})
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'password1', 'password2')
+        }),
+    )
 
-from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from users import models
-
-admin.site.register(models.UserProfileManager, UserAdmin)
-admin.site.register(models.UserProfile)
+admin.site.register(models.UserProfile, UserProfileAdmin)
 admin.site.register(models.ProfileFeedItem)
