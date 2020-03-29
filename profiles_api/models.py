@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from django.conf import settings
-from django.contrib.auth.admin import UserAdmin
+
 
 
 
@@ -20,7 +20,6 @@ def create_user(self, email, name, password=None, **extra_fields):
     user = User(
         email=email, is_staff=False, is_active=True,
         is_superuser=False,
-        last_login=now, date_joined=now, **extra_fields
     )
 
     #save the password here:
