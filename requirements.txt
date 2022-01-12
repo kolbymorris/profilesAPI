@@ -11,7 +11,7 @@ filelock==3.0.12
 gunicorn==20.0.4
 heroku==0.1.4
 idna==2.9
-pipenv==2018.11.26
+pipenv==2022.1.8
 psycopg2==2.8.4
 python-dateutil==1.5
 pytz==2019.3
